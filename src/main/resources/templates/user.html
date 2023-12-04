@@ -13,7 +13,7 @@
             <th>First name</th>
             <th>Last name</th>
             <th>E-Mail</th>
-            <th>User name</th>
+            <th>Username</th>
             <th>Password</th>
             <th>Roles</th>
         </tr>
@@ -24,7 +24,6 @@
         <td th:utext="${user.getUsername()}">Username</td>
         <td th:utext="${user.getPassword()}">Password</td>
         <td th:utext="${user.getRoles()}">Role</td>
-        <td>
     </table>
     <br>
     <form method="post" th:action="@{/logout}">

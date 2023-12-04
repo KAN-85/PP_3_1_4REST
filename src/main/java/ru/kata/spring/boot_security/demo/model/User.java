@@ -1,59 +1,36 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
 
 @Entity
-@Data
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Pattern(message = "Bad formed first name: ${validatedValue}",
-            regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]+\\')?[A-Z][a-z]*)))*$")
-    @NotEmpty(message = "First name must not be empty")
-    @Size(min = 2, max = 40, message = "Name must be between 2 and 40 characters long")
     @Column(name = "first_name")
     private String firstName;
 
-    @Pattern(message = "Bad formed user last name: ${validatedValue}",
-            regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]+\\')?[A-Z][a-z]*)))*$")
-    @NotEmpty(message = "Last name must not be empty")
-    @Size(min = 2, max = 40, message = "Lastname must be between 2 and 40 characters long")
     @Column(name = "last_name")
     private String lastName;
-    @Email(message = "E-mail address has invalid format: ${validatedValue}",
-            regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
-    @NotEmpty(message = "E-mail address must not be empty")
-    @Column(name = "email")
+
     private String email;
 
-
-    @NotEmpty(message = "Username must not be empty")
-    @Size(min = 2, max = 20, message = "Username must be between 2 and 20 characters long")
-    @Column(name = "username")
     private String username;
 
-    @NotEmpty(message = "Password must not be empty")
-    @Size(min = 4, message = "Password must be at least 4 characters long")
-    @Column(name = "password")
     private String password;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -61,19 +38,78 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String username, String password, Set<Role> roles) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email);
+        return Objects.hash(getId(), getFirstName(), getLastName(), getEmail());
     }
-
 
     @Override
     public String toString() {
@@ -93,6 +129,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -115,4 +155,8 @@ public class User implements UserDetails {
         return true;
     }
 }
+
+
+
+
 

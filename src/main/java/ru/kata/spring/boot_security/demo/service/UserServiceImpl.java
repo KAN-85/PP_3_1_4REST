@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
@@ -58,18 +58,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listUser() {
+    public List<User> getUsersList() {
         return userRepository.findAll();
     }
 
     @Override
-    public List<Role> listRole() {
+    public List<Role> getRolesList() {
         return roleRepository.findAll();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findUserByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }

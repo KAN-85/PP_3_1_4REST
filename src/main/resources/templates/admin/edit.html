@@ -54,7 +54,7 @@
             <tr>
                 <td>
                     <label>Roles:
-                        <input name="roles" th:each="role : ${allRoles}"
+                        <input name="roles" th:each="role : ${rolesList}"
                                th:field="*{roles}"
                                th:text="${role.name}"
                                th:value="${role.id}"
