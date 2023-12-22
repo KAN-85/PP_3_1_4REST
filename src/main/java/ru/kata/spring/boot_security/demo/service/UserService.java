@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -20,6 +19,7 @@ public interface UserService {
     List<User> getUsersList();
 
     List<Role> getRolesList();
+
     User getUserByUsername(String username);
 
 }
