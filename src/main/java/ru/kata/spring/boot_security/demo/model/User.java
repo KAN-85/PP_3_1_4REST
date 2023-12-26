@@ -152,7 +152,7 @@ public class User implements UserDetails {
 
     public String getRoleToString() {
         StringBuilder sb = new StringBuilder();
-        this.roles.forEach(role -> sb.append(role.getName()));
+        this.roles.forEach(role -> sb.append(role.getName() + " "));
         return sb.toString();
     }
 }
